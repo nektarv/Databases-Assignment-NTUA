@@ -481,7 +481,7 @@ USE `mydb`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `mydb`.`Create_nutrition_info_for_recipe` AFTER INSERT ON `Nutrition Info` FOR EACH ROW
 BEGIN
 	DECLARE total_kcals INT;
-    SELECT SUM(i.Kcal_per_100* ri.Precise_Quantity)
+    SELECT SUM(i.Kcal_per_100* ri.Precise_Quantity/100)
 	INTO total_kcals
     FROM Ingredients i JOIN REC_INGR ri ON ri.ING_ID = i.ING_ID
     WHERE ri.REC_ID = NEW.REC_ID;
@@ -493,17 +493,15 @@ BEGIN
 END$$
 
 USE `mydb`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `mydb`.`Episode_grades` AFTER INSERT ON `PLAYS` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `mydb`.`Episode_grades` AFTER INSERT ON `Episodes` FOR EACH ROW
 BEGIN
     DECLARE i INT =0;
     WHILE i<10
     BEGIN
     	SELECT floor(RAND()*16) AS rgrade;
 	
-    	UPDATE PLAYS
-    	SET Grade=rgrade
-    	WHERE (CH_ID =NEW.CH_ID) AND (EP_ID= NEW.EP_ID);
-
+    	INSERT INTO PLAYS(CH_ID,EP_ID,Grade) values(rCH_ID,rEP_ID,rgrade)
+	
 	SET i=i+1
     END
     
