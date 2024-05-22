@@ -495,11 +495,17 @@ END$$
 USE `mydb`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `mydb`.`Episode_grades` AFTER INSERT ON `PLAYS` FOR EACH ROW
 BEGIN
-    SELECT floor(RAND()*16) AS rgrade;
-    
-    UPDATE PLAYS
-    SET Grade=rgrade
-    WHERE (CH_ID =NEW.CH_ID) AND (EP_ID= NEW.EP_ID);
+    DECLARE i INT =0;
+    WHILE i<10
+    BEGIN
+    	SELECT floor(RAND()*16) AS rgrade;
+	
+    	UPDATE PLAYS
+    	SET Grade=rgrade
+    	WHERE (CH_ID =NEW.CH_ID) AND (EP_ID= NEW.EP_ID);
+
+	SET i=i+1
+    END
     
 
 END$$
