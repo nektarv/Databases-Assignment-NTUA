@@ -481,7 +481,7 @@ USE `mydb`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `mydb`.`Create_nutrition_info_for_recipe` AFTER INSERT ON `Nutrition Info` FOR EACH ROW
 BEGIN
 	DECLARE total_kcals INT;
-    SELECT SUM(i.Kcal_per_100)
+    SELECT SUM(i.Kcal_per_100* ri.Precise_Quantity)
 	INTO total_kcals
     FROM Ingredients i JOIN REC_INGR ri ON ri.ING_ID = i.ING_ID
     WHERE ri.REC_ID = NEW.REC_ID;
