@@ -491,7 +491,7 @@ BEGIN
     WHERE REC_ID= NEW.REC_ID;
     
 END$$
-
+/* This is wrong and doesnt compile
 USE `mydb`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `mydb`.`Episode_grades` AFTER INSERT ON `Episodes` FOR EACH ROW
 BEGIN
@@ -507,7 +507,7 @@ BEGIN
     
 
 END$$
-
+*/
 
 DELIMITER ;
 
