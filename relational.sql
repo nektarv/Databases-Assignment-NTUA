@@ -500,10 +500,10 @@ BEGIN
     BEGIN
     	SELECT floor(RAND()*16) AS rgrade;
 	
-    	INSERT INTO PLAYS(CH_ID,EP_ID,Grade) values(rCH_ID,rEP_ID,rgrade)
+    	INSERT INTO PLAYS(CH_ID,EP_ID,Grade) values(rCH_ID,rEP_ID,rgrade);
 	
-	SET i=i+1
-    END
+	SET i=i+1;
+    END;
     
 
 END$$
