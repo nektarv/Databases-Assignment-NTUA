@@ -540,17 +540,76 @@ CREATE TABLE `user_chefs_mapping` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
- -- make a frankenstein that handles everything on episode insertion
-/*TODO:
-ADD A RECIPE SELECTOR BASED ON CHEFS PROBABLY 
-PROBABLY(?) ADD A COLUMN ON PLAYS OF WHAT EVERY CHEF COOKS
-AND SOME CHECKS INSIDE DATABASE WHICH WE HAVE ALREADY INCLUDED ON FAKER BUT SHOULD EXIST AS INTEGRITY CONSTRAINTS*/
 
 
-DROP TRIGGER IF EXISTS `Episode_grades`;
-;
+--
+-- Final view structure for view `chefs_recipes`
+--
+
+/*!50001 DROP VIEW IF EXISTS `chefs_recipes`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `chefs_recipes` AS select `rc`.`CH_ID` AS `CH_ID`,`r`.`REC_ID` AS `REC_ID`,`r`.`Name` AS `Name`,`r`.`Pastry` AS `Pastry`,`r`.`Difficulty` AS `Difficulty`,`r`.`Desctiprion` AS `Desctiprion`,`r`.`Tip1` AS `Tip1`,`r`.`Tip2` AS `Tip2`,`r`.`Tip3` AS `Tip3`,`r`.`Total Time` AS `Total Time`,`r`.`Prep Time` AS `Prep Time`,`r`.`Exec_Time` AS `Exec_Time`,`r`.`Portions` AS `Portions`,`r`.`Characterization` AS `Characterization`,`r`.`PRIM_ING_ID` AS `PRIM_ING_ID`,`r`.`CU_ID` AS `CU_ID`,`r`.`THEME_ID` AS `THEME_ID`,`r`.`file_name` AS `file_name`,`n`.`Kcal per serving` AS `Kcal per serving`,`n`.`Protein per serving` AS `Protein per serving`,`n`.`Carbs per serving` AS `Carbs per serving`,`n`.`Fat per serving` AS `Fat per serving` from ((`rec_chef` `rc` join `recipes` `r` on((`rc`.`REC_ID` = `r`.`REC_ID`))) join `nutrition_info` `n` on((`r`.`REC_ID` = `n`.`REC_ID`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `episodes_played`
+--
+
+/*!50001 DROP VIEW IF EXISTS `episodes_played`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `episodes_played` AS select `p`.`CH_ID` AS `CH_ID`,`p`.`EP_ID` AS `EP_ID`,`p`.`recipe` AS `recipe`,`p`.`Grade` AS `Grade`,`e`.`Winner` AS `Winner` from (`plays` `p` join `episodes` `e` on((`p`.`EP_ID` = `e`.`EP_ID`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `personal_info`
+--
+
+/*!50001 DROP VIEW IF EXISTS `personal_info`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `personal_info` AS select `chefs`.`CH_ID` AS `CH_ID`,`chefs`.`First_Name` AS `First_Name`,`chefs`.`Last_Name` AS `Last_Name`,`chefs`.`Phone` AS `Phone`,`chefs`.`Birthday` AS `Birthday`,`chefs`.`Age` AS `Age`,`chefs`.`Experience` AS `Experience`,`chefs`.`Class` AS `Class`,`chefs`.`File_Name` AS `File_Name` from `chefs` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
 
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `Episode_grades`$$
+
 CREATE DEFINER = CURRENT_USER TRIGGER `Episode_grades` 
 AFTER INSERT ON `Episodes` 
 FOR EACH ROW
@@ -855,70 +914,4 @@ BEGIN
 END //
 
 DELIMITER ;
-
-
-
---
--- Final view structure for view `chefs_recipes`
---
-
-/*!50001 DROP VIEW IF EXISTS `chefs_recipes`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `chefs_recipes` AS select `rc`.`CH_ID` AS `CH_ID`,`r`.`REC_ID` AS `REC_ID`,`r`.`Name` AS `Name`,`r`.`Pastry` AS `Pastry`,`r`.`Difficulty` AS `Difficulty`,`r`.`Desctiprion` AS `Desctiprion`,`r`.`Tip1` AS `Tip1`,`r`.`Tip2` AS `Tip2`,`r`.`Tip3` AS `Tip3`,`r`.`Total Time` AS `Total Time`,`r`.`Prep Time` AS `Prep Time`,`r`.`Exec_Time` AS `Exec_Time`,`r`.`Portions` AS `Portions`,`r`.`Characterization` AS `Characterization`,`r`.`PRIM_ING_ID` AS `PRIM_ING_ID`,`r`.`CU_ID` AS `CU_ID`,`r`.`THEME_ID` AS `THEME_ID`,`r`.`file_name` AS `file_name`,`n`.`Kcal per serving` AS `Kcal per serving`,`n`.`Protein per serving` AS `Protein per serving`,`n`.`Carbs per serving` AS `Carbs per serving`,`n`.`Fat per serving` AS `Fat per serving` from ((`rec_chef` `rc` join `recipes` `r` on((`rc`.`REC_ID` = `r`.`REC_ID`))) join `nutrition_info` `n` on((`r`.`REC_ID` = `n`.`REC_ID`))) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `episodes_played`
---
-
-/*!50001 DROP VIEW IF EXISTS `episodes_played`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `episodes_played` AS select `p`.`CH_ID` AS `CH_ID`,`p`.`EP_ID` AS `EP_ID`,`p`.`recipe` AS `recipe`,`p`.`Grade` AS `Grade`,`e`.`Winner` AS `Winner` from (`plays` `p` join `episodes` `e` on((`p`.`EP_ID` = `e`.`EP_ID`))) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `personal_info`
---
-
-/*!50001 DROP VIEW IF EXISTS `personal_info`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `personal_info` AS select `chefs`.`CH_ID` AS `CH_ID`,`chefs`.`First_Name` AS `First_Name`,`chefs`.`Last_Name` AS `Last_Name`,`chefs`.`Phone` AS `Phone`,`chefs`.`Birthday` AS `Birthday`,`chefs`.`Age` AS `Age`,`chefs`.`Experience` AS `Experience`,`chefs`.`Class` AS `Class`,`chefs`.`File_Name` AS `File_Name` from `chefs` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
 -- Dump completed on 2024-05-25 21:09:35
