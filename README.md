@@ -1,4 +1,4 @@
-#Database for a cooking show
+# Database for a cooking show
 
 This was a 3-person group project conducted as part of the Databases course at NTUA.
 We designed a database, for which we developed a relational schema, designed an ER diagram and wrote queries in SQL.
