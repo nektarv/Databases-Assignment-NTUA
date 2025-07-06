@@ -1,7 +1,8 @@
- # Welcome to our cooking show!
+#Database for a cooking show
 
-## E-R Diagram
-![ER-Diagram drawio](https://github.com/Panagiotis-Magos/Cooking_Show/assets/118299247/3937cc06-1a86-4aff-9979-3168f0877361)
+This was a 3-person group project conducted as part of the Databases course at NTUA.
+We designed a database, for which we developed a relational schema, designed an ER diagram and wrote queries in SQL.
+We also included an extensive report, detailing the the design decisions and implementation.
 
-## Relational Schema
-![image (2)](https://github.com/Panagiotis-Magos/Cooking_Show/assets/118299247/e1cd39c5-1ed6-4f10-aaac-7e42268a7414)
+In the 18th page of the report, you can find a link to the original repository, created by one of my teammates. I decided to remove the forked relationship between his repository and mine, in order to rewrite the README section and change the title of the repo.
+
